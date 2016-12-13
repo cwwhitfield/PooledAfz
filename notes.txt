@@ -1,0 +1,56 @@
+
+#Example calls:
+perl pooledahmm.pl refcounts --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt --scaff 1.1 --prefix pooled
+perl pooledahmm.pl sampledepth --sample bigdata/prelim_AFZ.vcf --sample-name Sample1 --scaff 1.1 --prefix pooled 
+perl pooledahmm.pl fst --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt --scaff 1.1 --prefix pooled
+perl pooledahmm.pl mash --scaff 1.1 --sample-name Sample1 --prefix pooled --min-bp 10000 --max-bp 20000 -f
+perl pooledahmm.pl scaff2chrom --sample-name Sample1 --prefix pooled --scaff 1.1 --scaff-map ../resources/scaffold_chr_map_4.5.txt
+perl pooledahmm.pl mash2ahmm --sample-name Sample1 --prefix pooled --scaff 1.1 --recomb-map ../resources/Liu2015_RecombMap.txt
+perl pooledahmm.pl ahmm --sample-name Sample1 --prefix pooled --scaff 1.1 --ahmm-args "-i 20"
+
+#Process full genome counts & fst, then translate to chrom and Sample1 chromosome 1
+perl pooledahmm.pl refcounts --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt --prefix test1
+perl pooledahmm.pl fst --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt --prefix test1
+perl pooledahmm.pl sampledepth --sample bigdata/prelim_AFZ.vcf --sample-name Sample1 --prefix test1 
+perl pooledahmm.pl mash --sample-name Sample1 --prefix test1 --min-bp 10000 --max-bp 20000 -f
+perl pooledahmm.pl scaff2chrom --sample-name Sample1 --prefix test1 --scaff-map ../resources/scaffold_chr_map_4.5.txt
+perl pooledahmm.pl mash2ahmm --sample-name Sample1 --prefix pooled --scaff 1.1 --recomb-map ../resources/Liu2015_RecombMap.txt
+
+#test1: step through it 
+perl pooledahmm.pl refcounts --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt --prefix test1 --scaff 1.1
+perl pooledahmm.pl sampledepth --sample bigdata/prelim_AFZ.vcf --prefix test1 --sample-name Sample1 --scaff 1.1 
+perl pooledahmm.pl fst --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt --prefix test1  --scaff 1.1
+perl pooledahmm.pl mash --sample-name Sample1 --prefix test1 --scaff 1.1 --min-bp 10000 --max-bp 20000 -f
+perl pooledahmm.pl scaff2chrom --sample-name Sample1 --prefix test1 --scaff 1.1 --scaff-map ../resources/scaffold_chr_map_4.5.txt
+perl pooledahmm.pl mash2ahmm --sample-name Sample1 --prefix test1 --scaff 1.1 --recomb-map ../resources/Liu2015_RecombMap.txt
+perl pooledahmm.pl ahmm --sample-name Sample1 --prefix test1 --scaff 1.1 --ahmm-args "-i 20"
+
+test1 all
+perl pooledahmm.pl --ref /media/data1/forty3/brock/align/AllBees_SNPs.raw.vcf --ref0-list ../resources/refA_names.txt --ref1-list ../resources/refM_names.txt  --sample bigdata/prelim_AFZ.vcf --prefix test1 --sample-name Sample1 --scaff 1.1 --min-bp 10000 --max-bp 20000  --scaff-map ../resources/scaffold_chr_map_4.5.txt  --recomb-map ../resources/Liu2015_RecombMap_scaffolds.txt  --ahmm-args "-i 20" -f
+
+
+	
+	
+--sample-name Sample1 --scaff 1.1 --min-bp 10000 --max-bp 20000 --scaff-map ../resources/scaffold_chr_map_4.5.txt --recomb-map ../resources/Liu2015_RecombMap.txt --ahmm-args "-i 20" -f -c
+--sample-name Sample1 --prefix test1 --scaff 1.1 --recomb-map ../resources/Liu2015_RecombMap.txt	
+	
+	
+# So I don't forget this later...
+# nohup ancestry_hmm -i 20 test2kbAHMM.in test2kbAHMM.out
+
+
+R
+
+t<-read.table(out)
+bp<-t[,1]
+v<-t[,-1]
+p<-(max.col(v)-1)/(ncol(v)-1)
+plot(bp,p,type="o")
+
+
+
+
+par(mfrow=c(2,1))	# 2 rows of plots
+
+plot(bp,p,type="o",xaxt='n', ann=FALSE)		# suppress x-axis label and numbering
+plot(bp,p,type="o")

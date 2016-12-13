@@ -1,0 +1,9 @@
+
+# directories
+bigdata
+*_data
+*_files
+Ne5kProcessed
+
+# files
+nohup*
